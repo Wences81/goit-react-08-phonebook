@@ -1,67 +1,66 @@
-import { Component } from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Form, Label, Input, Button } from "./ContactForm.styled";
 
-export class ContactForm extends Component {
-  state = {
-    name: "",
-    number: "",
+export default function ContactForm({ onSubmit }) {
+  const [name, setName] = useState("");
+  const [number, setNumber] = useState("");
+
+  const nameId = uuidv4();
+  const telId = uuidv4();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "name":
+        setName(value);
+        break;
+      case "number":
+        setNumber(value);
+        break;
+      default:
+        return;
+    }
   };
 
-  nameId = uuidv4();
-  telId = uuidv4();
-
-  handleSubmit = (e) => {
-    const { name, number } = this.state;
+  const handleSubmit = (e) => {
     e.preventDefault();
-    this.props.onSubmit(name, number);
-    this.resetState();
+    onSubmit(name, number);
+    setName("");
+    setNumber("");
   };
 
-  handleNameChange = (e) => {
-    const { name, value } = e.currentTarget;
-    this.setState({ [name]: value });
-  };
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Label htmlFor={nameId}>
+        Name
+        <Input
+          type="text"
+          name="name"
+          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
+          required
+          id={nameId}
+          value={name}
+          onChange={handleChange}
+        />
+      </Label>
 
-  resetState = () => {
-    this.setState({ name: "", number: "" });
-  };
+      <Label htmlFor={telId}>
+        Number
+        <Input
+          type="tel"
+          name="number"
+          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+          title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
+          required
+          id={telId}
+          value={number}
+          onChange={handleChange}
+        />
+      </Label>
 
-  render() {
-    return (
-      <Form onSubmit={this.handleSubmit}>
-        <Label htmlFor={this.nameId}>
-          Name
-          <Input
-            type="text"
-            name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
-            required
-            id={this.nameId}
-            value={this.state.name}
-            onChange={this.handleNameChange}
-          />
-        </Label>
-
-        <Label htmlFor={this.telId}>
-          Number
-          <Input
-            type="tel"
-            name="number"
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
-            required
-            id={this.telId}
-            value={this.state.number}
-            onChange={this.handleNameChange}
-          />
-        </Label>
-
-        <Button type="submit">Add to contacts</Button>
-      </Form>
-    );
-  }
+      <Button type="submit">Add to contacts</Button>
+    </Form>
+  );
 }
-
-export default ContactForm;

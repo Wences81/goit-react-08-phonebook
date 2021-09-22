@@ -1,88 +1,78 @@
-import { Component } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import ContactForm from "../Form/ContactForm";
 import ContactList from "../List/ContactList";
 import Filter from "../Filter/Filter";
 import { Title } from "./App.styled";
 
-export class App extends Component {
-  state = {
-    contacts: [
-      { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
-      { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
-      { id: "id-3", name: "Eden Clements", number: "645-17-79" },
-      { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
-    ],
-    filter: "",
-  };
+export default function App() {
+  const [contacts, setContacts] = useState([
+    { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
+    { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
+    { id: "id-3", name: "Eden Clements", number: "645-17-79" },
+    { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
+  ]);
+  const [filter, setFilter] = useState("");
 
-  formSubmitHandler = (name, number) => {
+  useEffect(() => {
+    const currentContacts = JSON.parse(localStorage.getItem("contacts")) ?? "";
+    currentContacts && setContacts(currentContacts);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+  }, [contacts]);
+
+  const formSubmitHandler = (name, number) => {
+    if (
+      contacts.find(
+        (contact) => contact.name.toLowerCase() === name.toLocaleLowerCase()
+      )
+    ) {
+      alert(`${name} is already in contacts`);
+      return;
+    }
+
     const newContact = {
       id: uuidv4(),
       name,
       number,
     };
 
-    this.setState((prevState) => {
-      const duplicateContact = this.state.contacts.find(
-        (contact) => contact.name.toLowerCase() === name.toLowerCase()
-      );
-      if (duplicateContact) {
-        alert(`${name} is already in contacts`);
-        return { ...prevState };
-      }
-      return {
-        contacts: [newContact, ...prevState.contacts],
-      };
-    });
+    setContacts((prevState) => [newContact, ...prevState]);
   };
 
-  deleteContact = (contactId) => {
-    this.setState((prevState) => ({
-      contacts: prevState.contacts.filter(
-        (contact) => contact.id !== contactId
-      ),
-    }));
+  const deleteContacts = (contactId) => {
+    setContacts((prevState) =>
+      prevState.filter((contact) => contact.id !== contactId)
+    );
   };
 
-  changeFilter = (e) => {
-    this.setState({ filter: e.currentTarget.value });
+  const changeFilter = (e) => {
+    setFilter(e.currentTarget.value);
   };
 
-  getFilteredContacts = () => {
-    const { filter, contacts } = this.state;
+  const changeBlur = (e) => {
+    e.currentTarget.value = "";
+    setFilter("");
+  };
+
+  const filteredContacts = () => {
     return contacts.filter((contact) =>
-      contact.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
+      contact.name.toLowerCase().includes(filter.toLocaleLowerCase())
     );
   };
 
-  componentDidMount() {
-    const contacts = localStorage.getItem("contacts");
-    const parsedContacts = JSON.parse(contacts);
-
-    parsedContacts && this.setState({ contacts: parsedContacts });
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem("contacts", JSON.stringify(this.state.contacts));
-    }
-  }
-
-  render() {
-    return (
-      <div>
-        <Title>Phonebook</Title>
-        <ContactForm onSubmit={this.formSubmitHandler} />
-        <Title>Contacts</Title>
-        <Filter value={this.state.filter} onChange={this.changeFilter} />
-        <ContactList
-          contacts={this.getFilteredContacts()}
-          onDeleteContacts={this.deleteContact}
-        />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Title>Phonebook</Title>
+      <ContactForm onSubmit={formSubmitHandler} />
+      <Title>Contacts</Title>
+      <Filter value={filter} onChange={changeFilter} onBlur={changeBlur} />
+      <ContactList
+        contacts={filteredContacts()}
+        onDeleteContacts={deleteContacts}
+      />
+    </div>
+  );
 }
-
-export default App;
