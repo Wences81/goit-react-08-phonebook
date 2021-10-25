@@ -1,27 +1,27 @@
-import React from "react";
-import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
+import { contactsSelectors, contactsActions } from "../../redux/contacts/index";
 import { Label, Input } from "./Filter.styled";
 
-const Filter = ({ value, onChange, onBlur }) => {
+export default function Filter() {
+  const value = useSelector(contactsSelectors.getFilter);
+  const dispatch = useDispatch();
+
+  const onChangeHandler = (e) =>
+    dispatch(contactsActions.changeFilter(e.target.value));
+
+  const onBlurHandler = () => dispatch(contactsActions.changeFilter(""));
+
   return (
     <>
-      <Label htmlFor={"lab"}>
+      <Label>
         Find contacts by name
         <Input
           type="text"
-          id={"lab"}
           value={value}
-          onChange={onChange}
-          onBlur={onBlur}
+          onChange={onChangeHandler}
+          onBlur={onBlurHandler}
         />
       </Label>
     </>
   );
-};
-
-export default Filter;
-
-Filter.propTypes = {
-  value: PropTypes.string,
-  onChange: PropTypes.func,
-};
+}
