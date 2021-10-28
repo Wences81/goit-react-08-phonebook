@@ -6,20 +6,30 @@ export const fetchContactsAction = createAsyncThunk(
   async () => {
     try {
       return await axios.get("/contacts");
-    } catch (error) {}
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 );
 
 export const addContactAction = createAsyncThunk(
   "contacts/addContacts",
   async (contact) => {
-    return await axios.post("/contacts", contact);
+    try {
+      return await axios.post("/contacts", contact);
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 );
 
 export const deleteContactAction = createAsyncThunk(
   "contacts/deleteContacts",
   async (id) => {
-    await axios.delete(`/contacts/${id}`);
+    try {
+      await axios.delete(`/contacts/${id}`);
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 );

@@ -9,18 +9,11 @@ import { changeFilter } from "./contacts-actions";
 
 const entities = createReducer([], {
   [fetchContactsAction.fulfilled]: (_state, action) => action.payload.data,
-  [addContactAction.fulfilled]: (state, { payload }) => {
-    if (
-      state.find(
-        (contact) =>
-          contact.name.toLowerCase() === payload.data.name.toLowerCase()
-      )
-    ) {
-      alert(`${payload.data.name} is already in contacts`);
-      return state;
-    }
-    return [payload.data, ...state];
-  },
+  [addContactAction.fulfilled]: (state, { payload }) => [
+    payload.data,
+    ...state,
+  ],
+
   [deleteContactAction.fulfilled]: (state, { payload }) =>
     state.filter(({ id }) => id !== payload),
 });

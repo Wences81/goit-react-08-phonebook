@@ -3,7 +3,7 @@ import React from "react";
 const HomeView = () => (
   <div className="home-container">
     <h1 className="home-title">
-      Вщйдите или зарегистрируйтесь, чтобы увидеть контакты
+      Войдите или зарегистрируйтесь, чтобы увидеть контакты
     </h1>
     <img
       src="https://seetechno.pro/upload/iblock/46f/%D0%9A%D0%BE%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D1%8B.png"

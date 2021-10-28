@@ -33,7 +33,7 @@ export default function LoginView() {
                 type="email"
                 name="email"
                 required
-                value="email"
+                value={email}
                 onChange={handleChange}
               />
             </Col>

@@ -62,7 +62,7 @@ export default function RegisterView() {
                 type="email"
                 name="email"
                 required
-                value="email"
+                value={email}
                 onChange={handleChange}
               />
             </Col>
@@ -77,6 +77,8 @@ export default function RegisterView() {
                 required
                 value={password}
                 onChange={handleChange}
+                pattern=".{8,}"
+                title="Пароль должен состоять минимум из 8 цифр"
               />
             </Col>
           </Row>
