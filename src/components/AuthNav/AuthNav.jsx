@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { Navbar, Nav } from "react-bootstrap";
-import styles from "../components/AppBar/AppBar.module.css";
+import styles from "../css/General.module.css";
 
 export default function AuthNav() {
   return (

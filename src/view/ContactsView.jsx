@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { fetchContactsAction } from "../redux/phonebook/phonebook-operations";
+import { fetchContactsAction } from "../redux/contacts/contacts-operations";
 import ContactList from "../components/ContactList/ContactList";
 import ContactForm from "../components/ContactForm/ContactForm";
 import Filter from "../components/Filter/Filter";
