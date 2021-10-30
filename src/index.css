@@ -12,11 +12,6 @@ code {
     monospace;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
 .btn-primary {
   width: 100%;
   margin-top: 15px;
