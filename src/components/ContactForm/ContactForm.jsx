@@ -11,7 +11,7 @@ export default function ContactForm() {
   const [number, setNumber] = useState("");
 
   const onSubmit = (name, number) =>
-    dispatch(contactsOperations.addContactAction({ name, number }));
+    dispatch(contactsOperations.addContactsAction({ name, number }));
 
   const handleChange = (e) => {
     const { name, value } = e.target;

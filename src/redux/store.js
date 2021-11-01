@@ -10,7 +10,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import contactsReducer from "./contacts/contacts-reducers";
+import contactReducer from "./contacts/contacts-reducers";
 import authReducer from "./auth/auth-slice";
 
 const authPersistConfig = {
@@ -22,7 +22,7 @@ const authPersistConfig = {
 export const store = configureStore({
   reducer: {
     auth: persistReducer(authPersistConfig, authReducer),
-    contacts: contactsReducer,
+    contacts: contactReducer,
   },
 
   devTools: process.env.NODE_ENV !== "development",

@@ -12,7 +12,7 @@ export const fetchContactsAction = createAsyncThunk(
   }
 );
 
-export const addContactAction = createAsyncThunk(
+export const addContactsAction = createAsyncThunk(
   "contacts/addContacts",
   async (contact) => {
     try {
@@ -23,7 +23,7 @@ export const addContactAction = createAsyncThunk(
   }
 );
 
-export const deleteContactAction = createAsyncThunk(
+export const deleteContactsAction = createAsyncThunk(
   "contacts/deleteContacts",
   async (id) => {
     try {

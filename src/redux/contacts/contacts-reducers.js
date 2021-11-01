@@ -1,20 +1,20 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import {
-  addContactAction,
-  deleteContactAction,
+  addContactsAction,
+  deleteContactsAction,
   fetchContactsAction,
 } from "./contacts-operations";
 import { changeFilter } from "./contacts-actions";
 
 const entities = createReducer([], {
   [fetchContactsAction.fulfilled]: (_state, { payload }) => payload.data,
-  [addContactAction.fulfilled]: (state, { payload }) => [
+  [addContactsAction.fulfilled]: (state, { payload }) => [
     payload.data,
     ...state,
   ],
 
-  [deleteContactAction.fulfilled]: (state, { payload }) =>
+  [deleteContactsAction.fulfilled]: (state, { payload }) =>
     state.filter(({ id }) => id !== payload),
 });
 
@@ -22,21 +22,21 @@ const isLoading = createReducer(false, {
   [fetchContactsAction.pending]: () => true,
   [fetchContactsAction.fulfilled]: () => false,
   [fetchContactsAction.rejected]: () => false,
-  [addContactAction.pending]: () => true,
-  [addContactAction.fulfilled]: () => false,
-  [addContactAction.rejected]: () => false,
-  [deleteContactAction.pending]: () => true,
-  [deleteContactAction.fulfilled]: () => false,
-  [deleteContactAction.rejected]: () => false,
+  [addContactsAction.pending]: () => true,
+  [addContactsAction.fulfilled]: () => false,
+  [addContactsAction.rejected]: () => false,
+  [deleteContactsAction.pending]: () => true,
+  [deleteContactsAction.fulfilled]: () => false,
+  [deleteContactsAction.rejected]: () => false,
 });
 
 const error = createReducer(null, {
   [fetchContactsAction.rejected]: (_state, { payload }) => payload,
   [fetchContactsAction.pending]: null,
-  [addContactAction.rejected]: (_state, { payload }) => payload,
-  [addContactAction.pending]: null,
-  [deleteContactAction.rejected]: (_state, { payload }) => payload,
-  [deleteContactAction.pending]: null,
+  [addContactsAction.rejected]: (_state, { payload }) => payload,
+  [addContactsAction.pending]: null,
+  [deleteContactsAction.rejected]: (_state, { payload }) => payload,
+  [deleteContactsAction.pending]: null,
 });
 
 const filter = createReducer("", {
