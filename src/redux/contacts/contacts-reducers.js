@@ -8,7 +8,7 @@ import {
 import { changeFilter } from "./contacts-actions";
 
 const entities = createReducer([], {
-  [fetchContactsAction.fulfilled]: (_state, action) => action.payload.data,
+  [fetchContactsAction.fulfilled]: (_state, { payload }) => payload.data,
   [addContactAction.fulfilled]: (state, { payload }) => [
     payload.data,
     ...state,
@@ -31,11 +31,11 @@ const isLoading = createReducer(false, {
 });
 
 const error = createReducer(null, {
-  [fetchContactsAction.rejected]: (_state, action) => action.payload,
+  [fetchContactsAction.rejected]: (_state, { payload }) => payload,
   [fetchContactsAction.pending]: null,
-  [addContactAction.rejected]: (_state, action) => action.payload,
+  [addContactAction.rejected]: (_state, { payload }) => payload,
   [addContactAction.pending]: null,
-  [deleteContactAction.rejected]: (_state, action) => action.payload,
+  [deleteContactAction.rejected]: (_state, { payload }) => payload,
   [deleteContactAction.pending]: null,
 });
 

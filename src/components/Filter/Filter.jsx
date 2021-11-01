@@ -16,25 +16,27 @@ export default function Filter() {
 
   const onBlurHandler = () => dispatch(changeFilter(""));
 
-  if (contacts.length === 0) {
-    return <h2 style={{ display: "none" }}>Поиск</h2>;
-  } else {
-    return (
-      <Container>
-        <Form>
-          <Form.Group>
-            <h2>Найти контакт по имени</h2>
-            <Form.Control
-              type="text"
-              value={value}
-              onChange={onChangeHandler}
-              onBlur={onBlurHandler}
-            />
-          </Form.Group>
-        </Form>
-      </Container>
-    );
-  }
+  return (
+    <>
+      {!contacts.length && <h2 style={{ display: "none" }}>Поиск</h2>}
+      {contacts.length && (
+        <Container>
+          <Form>
+            <Form.Group>
+              <h2>Найти контакт по имени</h2>
+              <Form.Control
+                type="text"
+                value={value}
+                onChange={onChangeHandler}
+                onBlur={onBlurHandler}
+              />
+            </Form.Group>
+          </Form>
+        </Container>
+      )}
+      ;
+    </>
+  );
 }
 
 Filter.propTypes = {
